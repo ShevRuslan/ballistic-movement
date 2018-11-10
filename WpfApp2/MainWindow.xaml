@@ -1,0 +1,32 @@
+<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="Баллистическое движение" Height="587" Width="930.125" MinWidth="600" MinHeight="600">
+    <Grid ShowGridLines="true">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*"></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Name="TestGrid" Grid.Row="0"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" HorizontalAlignment="Center">Начальная скорость</Label>
+            <TextBox x:Name="speed" Grid.Column="0" MaxHeight="20" Margin="10"></TextBox>
+            <Label Grid.Column="1" HorizontalAlignment="Center">Угол Бросания</Label>
+            <TextBox x:Name="angle" Grid.Column="1" MaxHeight="20" Margin="10"></TextBox>
+            <Label Grid.Column="2" HorizontalAlignment="Center">Время</Label>
+            <TextBox x:Name="time" Grid.Column="2" MaxHeight="20" Margin="10"></TextBox>
+            <Button x:Name="math" Grid.Column="3" MaxHeight="20" Margin="10" Click="math_Click">Расчитать</Button>
+        </Grid>
+    </Grid>
+</Window>
