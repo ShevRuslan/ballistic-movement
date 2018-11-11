@@ -14,6 +14,7 @@ namespace WpfApp2
     public partial class MainWindow : Window
     {
         List<ChartsLineSeries> InformationCharts = new List<ChartsLineSeries>();
+        private int count = 0;//count lineseries
         public MainWindow()
         {
             InitializeComponent();
@@ -28,7 +29,6 @@ namespace WpfApp2
             Brush color = PickBrush();// get random color
             Brush fillColor = color;
             fillColor.Opacity = .05;//make opacity fill color
-            int count = 0;//count lineseries
 
             try
             {
@@ -45,7 +45,6 @@ namespace WpfApp2
 
                     X.Add(Math.Round(x));//add x coordinates to list 
                     Y.Add(Math.Round(y));//add y coordinates to list
-                    count++;// make 1 line series
                 }
                 ChartValues<ObservablePoint> List1Points = new ChartValues<ObservablePoint>();//value (x and y coordinates)
 
@@ -57,8 +56,9 @@ namespace WpfApp2
                         Y = Y[i]
                     });
                 }
-                var _ch =(CartesianChart)LogicalTreeHelper.FindLogicalNode(TestGrid, "ch1");//find element by parent and name
 
+                var _ch =(CartesianChart)LogicalTreeHelper.FindLogicalNode(TestGrid, "ch1");//find element by parent and name
+                count++;// make 1 line series
                 if (TestGrid.Children.Count == 0  || _ch == null)//if parend dont have children or element does not exist
                 {
                     CartesianChart ch = new CartesianChart();
@@ -68,6 +68,9 @@ namespace WpfApp2
                     {
                         line
                     };
+                    DefaultLegend legend = new DefaultLegend();
+                    ch.ChartLegend = legend;
+                    ch.LegendLocation = LegendLocation.Right;
                     TestGrid.Children.Add(ch);//add cartesian to grid
                 }
                 else
@@ -75,7 +78,7 @@ namespace WpfApp2
                     _ch.Series.Add(MakeLine(List1Points, fillColor, count, color));//if element exiist - add new line series by custom function
                 }
                 MessageBox.Show("Максимальная дальность: " + maxRange + "\n" + "Максимальная высота: " + maxHeight);//output information about charts
-                InformationCharts.Add(new ChartsLineSeries { Title = "series" + count.ToString(), Angle = _angle.ToString(), Height = maxHeight.ToString(), Range = maxRange.ToString(), Speed = _speed.ToString(), Time = _time.ToString()});
+                InformationCharts.Add(new ChartsLineSeries { Title = "График " + count.ToString(), Angle = _angle.ToString(), Height = maxHeight.ToString(), Range = maxRange.ToString(), Speed = _speed.ToString(), Time = _time.ToString()});
             }
             catch(Exception)
             {
@@ -94,8 +97,10 @@ namespace WpfApp2
         {
             return new LineSeries
             {
-                Title = "Series 1",
+                Title = "График " + count,
                 Values = values,
+                PointGeometry = DefaultGeometries.Diamond,
+                PointGeometrySize = 15,
                 Fill = fillColor,
                 LineSmoothness = 1,
                 Name = "series" + count,
