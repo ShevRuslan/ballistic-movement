@@ -5,6 +5,7 @@ using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Wpf;
 using LiveCharts.Defaults;
+using System.Reflection;
 
 namespace WpfApp2
 {
@@ -15,6 +16,8 @@ namespace WpfApp2
     {
         List<ChartsLineSeries> InformationCharts = new List<ChartsLineSeries>();
         private int count = 0;//count lineseries
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,18 +30,22 @@ namespace WpfApp2
             List<double> Y = new List<double>();//y - coordinates
             DataContext = this;
             Brush color = PickBrush();// get random color
-            Brush fillColor = color;
-            fillColor.Opacity = .05;//make opacity fill color
+            Brush fillColor = (SolidColorBrush)(new BrushConverter().ConvertFromString(color.ToString()));
+            fillColor.Opacity = .08;
 
             try
             {
+                ChartValues<ObservablePoint> List1Points = new ChartValues<ObservablePoint>();//value (x and y coordinates)
                 double _speed = Convert.ToDouble(speed.Text);//get speed from tb
                 double _angle = Convert.ToDouble(angle.Text);//get angle from tb
                 double _time  = Convert.ToDouble(time.Text);//get time from tb
                 double maxRange = Math.Round(_speed * Math.Cos(_angle * Math.PI / 180) * _time);//make maxrange
                 double maxHeight = Math.Round(Math.Pow(_speed, 2) * Math.Pow(Math.Sin(_angle * Math.PI / 180), 2) / 20);//make maxheight
+                var _ch = (CartesianChart)LogicalTreeHelper.FindLogicalNode(TestGrid, "ch1");//find element by parent and name
+                count++;// make 1 line series
 
-                for (int i = 0; i <= _time; i++)
+
+                for (double i = 0; i <= _time; i+=0.5)
                 {
                     var x = _speed * Math.Cos(_angle * Math.PI / 180) * i;//get x coordinates
                     var y = _speed * Math.Sin(_angle * Math.PI / 180) * i - (10 * Math.Pow(i, 2) / 2);//get y coordinates
@@ -46,8 +53,6 @@ namespace WpfApp2
                     X.Add(Math.Round(x));//add x coordinates to list 
                     Y.Add(Math.Round(y));//add y coordinates to list
                 }
-                ChartValues<ObservablePoint> List1Points = new ChartValues<ObservablePoint>();//value (x and y coordinates)
-
                 for (int i = 0; i < X.Count; i++)
                 {
                     List1Points.Add(new ObservablePoint
@@ -57,12 +62,19 @@ namespace WpfApp2
                     });
                 }
 
-                var _ch =(CartesianChart)LogicalTreeHelper.FindLogicalNode(TestGrid, "ch1");//find element by parent and name
-                count++;// make 1 line series
                 if (TestGrid.Children.Count == 0  || _ch == null)//if parend dont have children or element does not exist
                 {
                     CartesianChart ch = new CartesianChart();
                     LineSeries line = MakeLine(List1Points, fillColor, count, color);//get lineseries by custom function
+                    /*
+                    ch.AxisY.Clear();
+
+                    ch.AxisY.Add(
+                    new Axis
+                    {
+                        MinValue = 0
+                    });
+                    */
                     ch.Name = "ch1";//make name
                     ch.Series = new SeriesCollection
                     {
@@ -77,20 +89,23 @@ namespace WpfApp2
                 {
                     _ch.Series.Add(MakeLine(List1Points, fillColor, count, color));//if element exiist - add new line series by custom function
                 }
-                MessageBox.Show("Максимальная дальность: " + maxRange + "\n" + "Максимальная высота: " + maxHeight);//output information about charts
                 InformationCharts.Add(new ChartsLineSeries { Title = "График " + count.ToString(), Angle = _angle.ToString(), Height = maxHeight.ToString(), Range = maxRange.ToString(), Speed = _speed.ToString(), Time = _time.ToString()});
             }
             catch(Exception)
             {
-                MessageBox.Show("Введите валидные данные!");// if angle or speed or time == null
+                MessageBox.Show("Произошла ошибка! Проверье данные на валидность.");// if angle or speed or time == null
             }
         }
         //random colors pick
         private Brush PickBrush()
         {
-            Random r = new Random();
-            Brush brush = new SolidColorBrush(Color.FromRgb((byte)r.Next(1, 255), (byte)r.Next(1, 255), (byte)r.Next(1, 233)));
-            return brush;
+            Random rnd = new Random();
+            Brush result = Brushes.Transparent;
+            Type brushesType = typeof(Brushes);
+            PropertyInfo[] properties = brushesType.GetProperties();
+            int random = rnd.Next(properties.Length);
+            result = (Brush)properties[random].GetValue(null, null);
+            return result;
         }
         //make new line series
         private LineSeries MakeLine(ChartValues<ObservablePoint> values, Brush fillColor, int count, Brush color)
@@ -99,10 +114,10 @@ namespace WpfApp2
             {
                 Title = "График " + count,
                 Values = values,
-                PointGeometry = DefaultGeometries.Diamond,
+                PointGeometry = DefaultGeometries.Circle,
                 PointGeometrySize = 15,
                 Fill = fillColor,
-                LineSmoothness = 1,
+                LineSmoothness = 0,
                 Name = "series" + count,
                 Stroke = color,
             };
