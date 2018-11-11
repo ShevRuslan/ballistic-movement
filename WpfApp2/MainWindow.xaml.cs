@@ -1,23 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Drawing;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using LiveCharts;
 using LiveCharts.Wpf;
 using LiveCharts.Defaults;
-using LiveCharts.Configurations;
-using System.Reflection;
 
 namespace WpfApp2
 {
@@ -40,7 +27,7 @@ namespace WpfApp2
             DataContext = this;
             Brush color = PickBrush();
             Brush fillColor = color;
-            fillColor.Opacity = .1;
+            fillColor.Opacity = .05;
             int count = 0;
 
             try
@@ -75,46 +62,17 @@ namespace WpfApp2
                 if (TestGrid.Children.Count == 0  || _ch == null)
                 {
                     CartesianChart ch = new CartesianChart();
+                    LineSeries line = MakeLine(List1Points, fillColor, count, color);
                     ch.Name = "ch1";
                     ch.Series = new SeriesCollection
                     {
-                        new LineSeries
-                        {
-                            Title = "Series 1",
-                            Values = List1Points,
-                            Fill  = fillColor,
-                            LineSmoothness = 0,
-                            Name = "series" + count ,
-                            Stroke = color,
-                        }
+                        line
                     };
                     TestGrid.Children.Add(ch);
                 }
                 else
                 {
-                    _ch.Series.Add(new LineSeries
-                        {
-                            Title = "Series 1",
-                            Values = List1Points,
-                            Fill = fillColor,
-                            LineSmoothness = 0,
-                            Name = "series" + count ,
-                            Stroke = color,
-                        });
-                    /*
-                    _ch.Series = new SeriesCollection
-                    {
-                        new LineSeries
-                        {
-                            Title = "Series 1",
-                            Values = List1Points,
-                            Fill  = fillColor,
-                            LineSmoothness = 0,
-                            Name = "series" + count ,
-                            Stroke = color,
-                        }
-                    };
-                    */
+                    _ch.Series.Add(MakeLine(List1Points, fillColor, count, color));
                 }
                 MessageBox.Show("Максимальная дальность: " + maxRange + "\n" + "Максимальная высота: " + maxHeight);
             }
@@ -123,12 +81,25 @@ namespace WpfApp2
                 MessageBox.Show("Введите валидные данные!");
             }
         }
+
         private Brush PickBrush()
         {
             Random r = new Random();
-            Brush brush = new SolidColorBrush(Color.FromRgb((byte)r.Next(1, 255),
-              (byte)r.Next(1, 255), (byte)r.Next(1, 233)));
+            Brush brush = new SolidColorBrush(Color.FromRgb((byte)r.Next(1, 255), (byte)r.Next(1, 255), (byte)r.Next(1, 233)));
             return brush;
+        }
+
+        private LineSeries MakeLine(ChartValues<ObservablePoint> values, Brush fillColor, int count, Brush color)
+        {
+            return new LineSeries
+            {
+                Title = "Series 1",
+                Values = values,
+                Fill = fillColor,
+                LineSmoothness = 1,
+                Name = "series" + count,
+                Stroke = color,
+            };
         }
     }
 }
