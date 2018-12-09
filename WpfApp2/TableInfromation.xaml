@@ -10,8 +10,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="dataGrid" Grid.Row="0" HorizontalAlignment="Left"  VerticalAlignment="Top" AutoGenerateColumns="False" Width="792" >
+        <DataGrid x:Name="dataGrid" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False" Width="792" >
             <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Цвет">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Ellipse Stroke="{Binding Path=Ell}" Width="16" ></Ellipse>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="График" Binding="{Binding Path=Title}"/>
                 <DataGridTextColumn Header="Начальная скорость" Binding="{Binding Path=Speed}"/>
                 <DataGridTextColumn Header="Угол" Binding="{Binding Path=Angle}" />

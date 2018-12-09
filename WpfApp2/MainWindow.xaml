@@ -25,15 +25,14 @@
             <Label Grid.Column="1" HorizontalAlignment="Center">Угол Бросания</Label>
             <TextBox x:Name="angle" Grid.Column="1" MaxHeight="20" Margin="10"></TextBox>
             <Label Grid.Column="2" HorizontalAlignment="Center">Время</Label>
-            <TextBox x:Name="time" Grid.Column="2" MaxHeight="20" Margin="10"></TextBox>
+            <TextBox x:Name="time" Grid.Column="2" MaxHeight="20" Margin="10" Background="White"></TextBox>
             <Grid Grid.Column="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.5*"></RowDefinition>
                     <RowDefinition Height="0.5*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Button x:Name="math" Grid.Row="0" Margin="10,21,10,10"   Click="math_Click" Content="Расчитать&#xD;&#xA;">
-                </Button>
-                <Button x:Name="button" Grid.Row="1" Content="Получить информацию" Margin="10,19,10,10" Click="button_Click"/>
+                <Button x:Name="math" Grid.Row="0" Content="Расчитать" Margin="10,19,10,0" Click="math_Click" BorderBrush="Transparent" Background="#FF40AA53" Foreground="White" FontFamily="Open Sans Semibold" FontSize="14" BorderThickness="0" />
+                <Button x:Name="button" Grid.Row="1" Content="Получить информацию" Margin="10" Click="button_Click" BorderBrush="Transparent" Background="#FF40AA53" Foreground="White" FontFamily="Open Sans Semibold" FontSize="14" BorderThickness="0" />
             </Grid>
         </Grid>
     </Grid>

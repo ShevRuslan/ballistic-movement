@@ -6,6 +6,7 @@ using LiveCharts;
 using LiveCharts.Wpf;
 using LiveCharts.Defaults;
 using System.Reflection;
+using System.Windows.Shapes;
 
 namespace WpfApp2
 {
@@ -43,9 +44,9 @@ namespace WpfApp2
                 double maxHeight = Math.Round(Math.Pow(_speed, 2) * Math.Pow(Math.Sin(_angle * Math.PI / 180), 2) / 20);//make maxheight
                 var _ch = (CartesianChart)LogicalTreeHelper.FindLogicalNode(TestGrid, "ch1");//find element by parent and name
                 count++;// make 1 line series
+                
 
-
-                for (double i = 0; i <= _time; i+=0.5)
+                for (double i = 0; i <= _time; i++)
                 {
                     var x = _speed * Math.Cos(_angle * Math.PI / 180) * i;//get x coordinates
                     var y = _speed * Math.Sin(_angle * Math.PI / 180) * i - (10 * Math.Pow(i, 2) / 2);//get y coordinates
@@ -82,14 +83,14 @@ namespace WpfApp2
                     };
                     DefaultLegend legend = new DefaultLegend();
                     ch.ChartLegend = legend;
-                    ch.LegendLocation = LegendLocation.Right;
+                    ch.LegendLocation = LegendLocation.Bottom;
                     TestGrid.Children.Add(ch);//add cartesian to grid
                 }
                 else
                 {
                     _ch.Series.Add(MakeLine(List1Points, fillColor, count, color));//if element exiist - add new line series by custom function
                 }
-                InformationCharts.Add(new ChartsLineSeries { Title = "График " + count.ToString(), Angle = _angle.ToString(), Height = maxHeight.ToString(), Range = maxRange.ToString(), Speed = _speed.ToString(), Time = _time.ToString()});
+                InformationCharts.Add(new ChartsLineSeries { Ell = color, Title = "График " + count.ToString(), Angle = _angle.ToString(), Height = maxHeight.ToString(), Range = maxRange.ToString(), Speed = _speed.ToString(), Time = _time.ToString()});
             }
             catch(Exception)
             {

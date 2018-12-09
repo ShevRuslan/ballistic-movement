@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace WpfApp2
 {
@@ -14,5 +16,6 @@ namespace WpfApp2
         public string Time { get; set; }
         public string Height { get; set; }
         public string Range { get; set; }
+        public Brush Ell { get; set; }
     }
 }
