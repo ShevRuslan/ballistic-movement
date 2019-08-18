@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Chart.cs" />
     <Compile Include="ChartsLineSeries.cs" />
     <Compile Include="TableInfromation.xaml.cs">
       <DependentUpon>TableInfromation.xaml</DependentUpon>

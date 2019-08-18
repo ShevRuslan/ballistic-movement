@@ -10,12 +10,23 @@ namespace WpfApp2
 {
     class ChartsLineSeries
     {
-        public string Title { get; set; }
-        public string Speed { get; set; }
-        public string Angle { get; set; }
-        public string Time { get; set; }
-        public string Height { get; set; }
-        public string Range { get; set; }
-        public Brush Ell { get; set; }
+        public string Title { get; private set; }
+        public string Speed { get; private set; }
+        public string Angle { get; private set; }
+        public string Time { get; private set; }
+        public string Height { get; private set; }
+        public string Range { get; private set; }
+        public Brush Ell { get; private set; }
+
+        public ChartsLineSeries(string title, string speed, string angle, string time, string height, string range, Brush ell)
+        {
+            Title = title;
+            Speed = speed;
+            Angle = angle;
+            Time = time;
+            Height = height;
+            Range = range;
+            Ell = ell;
+        }
     }
 }

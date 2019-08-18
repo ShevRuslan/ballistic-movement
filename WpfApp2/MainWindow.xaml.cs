@@ -7,6 +7,7 @@ using LiveCharts.Wpf;
 using LiveCharts.Defaults;
 using System.Reflection;
 using System.Windows.Shapes;
+using System.Globalization;
 
 namespace WpfApp2
 {
@@ -16,7 +17,7 @@ namespace WpfApp2
     public partial class MainWindow : Window
     {
         List<ChartsLineSeries> InformationCharts = new List<ChartsLineSeries>();
-        private int count = 0;//count lineseries
+        private uint count = 0;//count lineseries
 
 
         public MainWindow()
@@ -29,7 +30,6 @@ namespace WpfApp2
         {
             List<double> X = new List<double>();//x - coordinates
             List<double> Y = new List<double>();//y - coordinates
-            DataContext = this;
             Brush color = PickBrush();// get random color
             Brush fillColor = (SolidColorBrush)(new BrushConverter().ConvertFromString(color.ToString()));
             fillColor.Opacity = .08;
@@ -37,9 +37,9 @@ namespace WpfApp2
             try
             {
                 ChartValues<ObservablePoint> List1Points = new ChartValues<ObservablePoint>();//value (x and y coordinates)
-                double _speed = Convert.ToDouble(speed.Text);//get speed from tb
-                double _angle = Convert.ToDouble(angle.Text);//get angle from tb
-                double _time  = Convert.ToDouble(time.Text);//get time from tb
+                double _speed = Convert.ToDouble(speed.Text, System.Globalization.CultureInfo.InvariantCulture);//get speed from tb
+                double _angle = Convert.ToDouble(angle.Text, System.Globalization.CultureInfo.InvariantCulture);//get angle from tb
+                double _time  = Convert.ToDouble(time.Text, System.Globalization.CultureInfo.InvariantCulture);//get time from tb
                 double maxRange = Math.Round(_speed * Math.Cos(_angle * Math.PI / 180) * _time);//make maxrange
                 double maxHeight = Math.Round(Math.Pow(_speed, 2) * Math.Pow(Math.Sin(_angle * Math.PI / 180), 2) / 20);//make maxheight
                 var _ch = (CartesianChart)LogicalTreeHelper.FindLogicalNode(TestGrid, "ch1");//find element by parent and name
@@ -66,16 +66,7 @@ namespace WpfApp2
                 if (TestGrid.Children.Count == 0  || _ch == null)//if parend dont have children or element does not exist
                 {
                     CartesianChart ch = new CartesianChart();
-                    LineSeries line = MakeLine(List1Points, fillColor, count, color);//get lineseries by custom function
-                    /*
-                    ch.AxisY.Clear();
-
-                    ch.AxisY.Add(
-                    new Axis
-                    {
-                        MinValue = 0
-                    });
-                    */
+                    LineSeries line = MakeLine(List1Points, fillColor, (int) count, color);//get lineseries by custom function
                     ch.Name = "ch1";//make name
                     ch.Series = new SeriesCollection
                     {
@@ -88,11 +79,11 @@ namespace WpfApp2
                 }
                 else
                 {
-                    _ch.Series.Add(MakeLine(List1Points, fillColor, count, color));//if element exiist - add new line series by custom function
+                    _ch.Series.Add(MakeLine(List1Points, fillColor, (int) count, color));//if element exiist - add new line series by custom function
                 }
-                InformationCharts.Add(new ChartsLineSeries { Ell = color, Title = "График " + count.ToString(), Angle = _angle.ToString(), Height = maxHeight.ToString(), Range = maxRange.ToString(), Speed = _speed.ToString(), Time = _time.ToString()});
+                InformationCharts.Add(new ChartsLineSeries("График " + count.ToString(), _speed.ToString(), _angle.ToString(), _time.ToString(), maxHeight.ToString(), maxRange.ToString(), color));
             }
-            catch(Exception)
+            catch(Exception )
             {
                 MessageBox.Show("Произошла ошибка! Проверье данные на валидность.");// if angle or speed or time == null
             }
