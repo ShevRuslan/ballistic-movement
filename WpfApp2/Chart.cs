@@ -13,10 +13,10 @@ namespace WpfApp2
         public uint Count { get; private set; } = 0;
         private readonly List<ChartsLineSeries> InformationCharts = new List<ChartsLineSeries>();
 
-        public void CreateChart(double speed, double angle, double time, CartesianChart parent)
+        public void CreateChart(double speed, double angle, CartesianChart parent)
         {
             Count++;
-            ChartsLineSeries chartsLineSeries = new ChartsLineSeries(speed, angle, time);
+            ChartsLineSeries chartsLineSeries = new ChartsLineSeries(speed, angle);
             parent.Series.Add(chartsLineSeries.CreateChartLine("График " + Count, "series" + Count ));//if element exiist - add new line series by custom function
             InformationCharts.Add(chartsLineSeries);
         }

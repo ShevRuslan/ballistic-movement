@@ -19,11 +19,11 @@ namespace WpfApp2
         public double Range { get; private set; }
         public Brush Ell { get; private set; }
 
-        public ChartsLineSeries(double speed, double angle, double time)
+        public ChartsLineSeries(double speed, double angle)
         {
             Speed = speed;
             Angle = angle;
-            Time = time;
+            Time = Math.Round((2 * speed * Math.Sin((Angle * Math.PI) / 180)) / 9.8, 1);
             
         }
         public LineSeries CreateChartLine(string title, string name)
@@ -38,16 +38,16 @@ namespace WpfApp2
             Brush fillColor = (SolidColorBrush)(new BrushConverter().ConvertFromString(color.ToString()));
             fillColor.Opacity = .08;
 
-            Range = Math.Round(Speed * Math.Cos(Angle * Math.PI / 180) * Time);
-            Height = Math.Round(Math.Pow(Speed, 2) * Math.Pow(Math.Sin(Angle * Math.PI / 180), 2) / 20);
-
-            for (double i = 0; i <= Time; i++)
+            Range = Math.Round(Speed * Math.Cos((Angle * Math.PI) / 180) * Time, 1);
+            Height = Math.Round((Math.Pow(Speed, 2) * Math.Pow(Math.Sin(Angle * Math.PI / 180), 2)) / 20, 1);
+            double dot = Math.Round((Time / 100) * 10, 1);
+            for (double i = 0; i <= Time; i+= 0.2)
             {
-                double x = Speed * Math.Cos(Angle * Math.PI / 180) * i;
-                double y = Speed * Math.Sin(Angle * Math.PI / 180) * i - (10 * Math.Pow(i, 2) / 2);
-
-                X.Add(Math.Round(x));
-                Y.Add(Math.Round(y));
+                double x = Math.Round(Speed * Math.Cos((Angle * Math.PI) / 180) * i, 1);
+                double y = Math.Round((Speed * Math.Sin((Angle * Math.PI) / 180) * i) - ((9.8 * Math.Pow(i, 2)) / 2), 1);
+                if (y < 0 && i != 0) y = 0;
+                X.Add(x);
+                Y.Add(y);
             }
 
             for (int i = 0; i < X.Count; i++)

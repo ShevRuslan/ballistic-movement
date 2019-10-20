@@ -22,14 +22,11 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" HorizontalAlignment="Center">Начальная скорость</Label>
+            <Label x:Name="speed1" Grid.Column="0" HorizontalAlignment="Center">Начальная скорость</Label>
             <TextBox x:Name="speed" Grid.Column="0" MaxHeight="20" Margin="10"></TextBox>
             <Label Grid.Column="1" HorizontalAlignment="Center">Угол Бросания</Label>
             <TextBox x:Name="angle" Grid.Column="1" MaxHeight="20" Margin="10"></TextBox>
-            <Label Grid.Column="2" HorizontalAlignment="Center">Время</Label>
-            <TextBox x:Name="time" Grid.Column="2" MaxHeight="20" Margin="10" Background="White"></TextBox>
             <Grid Grid.Column="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.5*"></RowDefinition>

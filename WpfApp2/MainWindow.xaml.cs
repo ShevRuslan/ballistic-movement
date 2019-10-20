@@ -27,14 +27,12 @@ namespace WpfApp2
         {
             double _speed = Convert.ToDouble(speed.Text, System.Globalization.CultureInfo.InvariantCulture);//get speed from tb
             double _angle = Convert.ToDouble(angle.Text, System.Globalization.CultureInfo.InvariantCulture);//get angle from tb
-            double _time = Convert.ToDouble(time.Text, System.Globalization.CultureInfo.InvariantCulture);//get time from tb
 
             var _ch = (CartesianChart)LogicalTreeHelper.FindLogicalNode(TestGrid, "ch1");//find element by parent and name
 
             if (TestGrid.Children.Count == 0 || _ch == null)//if parend dont have children or element does not exist
             {
                 CartesianChart ch = new CartesianChart();
-                //LineSeries line = MakeLine(List1Points, fillColor, (int) count, color);//get lineseries by custom function
                 ch.Name = "ch1";//make name
                 ch.Series = new SeriesCollection();
                 DefaultLegend legend = new DefaultLegend();
@@ -43,7 +41,7 @@ namespace WpfApp2
                 TestGrid.Children.Add(ch);//add cartesian to grid
                 _ch = ch;
             }
-            chart.CreateChart(_speed, _angle, _time, _ch);
+            chart.CreateChart(_speed, _angle, _ch);
         }
         private void button_Click(object sender, RoutedEventArgs e)
         {
